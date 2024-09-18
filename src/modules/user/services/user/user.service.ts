@@ -24,6 +24,16 @@ export class UserService {
     return user;
   }
 
+  async findUser(email: string, password: string): Promise<User> {
+    const user = await this.repository.findOne({
+      where: { email, password },
+    });
+    if (!user) {
+      throw new NotFoundException(`User not found`);
+    }
+    return user;
+  }
+
   async create(user: Partial<User>): Promise<User> {
     return await this.repository.save(user);
   }

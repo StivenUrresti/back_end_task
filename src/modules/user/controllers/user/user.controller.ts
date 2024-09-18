@@ -10,7 +10,7 @@ import {
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../entities/user.entity';
 import { UserDto } from '../../dto/userDto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Users')
 @Controller('users')
@@ -25,6 +25,22 @@ export class UserController {
   @Get(':id')
   async findById(@Param('id') id: string): Promise<User> {
     return await this.userService.findById(+id);
+  }
+
+  @ApiParam({
+    name: 'email',
+    required: true,
+  })
+  @ApiParam({
+    name: 'password',
+    required: true,
+  })
+  @Get(':email/:password')
+  async findUser(
+    @Param('email') email: string,
+    @Param('password') password: string,
+  ): Promise<User> {
+    return await this.userService.findUser(email, password);
   }
 
   @Post()

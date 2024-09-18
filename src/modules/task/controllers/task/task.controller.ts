@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { TaskService } from '../../services/task/task.service';
 import { Task } from '../../entities/task.entity';
-import { TaskDto } from '../../dto/taskDto';
+import { TaskDto, UpdateTaskStatusDto } from '../../dto/taskDto';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Task')
@@ -62,5 +62,18 @@ export class TaskController {
     @Param('taskId') taskId: number,
   ): Promise<void> {
     await this.taskService.remove(userId, taskId);
+  }
+
+  @Put(':taskId/:userId/status')
+  async updateTaskStatus(
+    @Param('taskId') taskId: number,
+    @Param('userId') userId: number,
+    @Body() updateTaskStatusDto: UpdateTaskStatusDto,
+  ): Promise<Task> {
+    return this.taskService.updateTaskStatus(
+      userId,
+      taskId,
+      updateTaskStatusDto,
+    );
   }
 }

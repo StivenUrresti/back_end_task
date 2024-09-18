@@ -21,3 +21,9 @@ export class TaskDto {
   @IsEnum(TaskStatus)
   status: TaskStatus;
 }
+
+export class UpdateTaskStatusDto {
+  @ApiProperty({ enum: TaskStatus })
+  @IsEnum(TaskStatus)
+  status: TaskStatus;
+}
